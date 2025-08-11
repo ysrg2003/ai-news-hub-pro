@@ -153,14 +153,14 @@ export default function Article() {
             
             <CardHeader className="pb-4">
               <div className="flex flex-wrap items-center gap-2 mb-4">
-                <Badge variant="outline">
+                {/* <Badge variant="outline">
                   {typeof article.topic === 'string' 
                     ? article.topic 
                     : typeof article.topic === 'object' && article.topic && 'name' in article.topic
                       ? (article.topic as any).name 
                       : 'Unknown'
                   }
-                </Badge>
+                </Badge> */}
                 <SentimentBadge sentiment={article.sentiment} />
                 <Badge variant="secondary">
                   {typeof article.source === 'string' 

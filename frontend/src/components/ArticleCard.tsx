@@ -39,7 +39,7 @@ export const ArticleCard = ({ article, onClick, className }: ArticleCardProps) =
       
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between gap-2 mb-2">
-          <Badge variant="outline" className="text-xs">
+          {/* <Badge variant="outline" className="text-xs">
             {(() => {
               if (typeof article.topic === 'string') return article.topic;
               if (article.topic && typeof article.topic === 'object') {
@@ -47,7 +47,7 @@ export const ArticleCard = ({ article, onClick, className }: ArticleCardProps) =
               }
               return 'Unknown';
             })()}
-          </Badge>
+          </Badge> */}
           <SentimentBadge sentiment={article.sentiment} />
         </div>
         
