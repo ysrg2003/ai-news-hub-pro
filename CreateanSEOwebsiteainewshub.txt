@@ -1,0 +1,729 @@
+﻿
+Create an SEO and AI-compatible website, where the site revolves around AI news, its applications, etc. The site is global and in English. The site's articles are created daily with free AI that keeps up with the AI news and trends of that day. Make the site compatible and eligible for Google AdSense approval. Create the necessary pages, metadata, graphics, designs, ad placement areas, robots.txt, and sitemap (which updates automatically when any article is added), keywords, and the ability to share articles. You can create the site on GitHub. The site and articles must appear in search results. The site must attract the largest possible number of visitors and engaged users daily, and it must bring in significant daily traffic. The site and articles must contain compatible and beneficial backlinks and internal links. I want to build the entire site for free, and everything should be free.
+
+Add a Table of Contents: When a user clicks on any heading (H2, H3), they are taken directly to that section of the article.
+Add site sections:
+*   Machine Learning
+*   Natural Language Processing
+*   Computer Vision
+*   Robotics
+*   Generative AI
+*   AI Applications
+*   AI Research
+*   AI Ethics
+
+Add the following pages:
+*   Privacy Policy
+*   Terms of Service
+*   Contact
+*   About Us
+
+Add an archive page.
+
+Add social media sharing buttons for each article for each social media.
+Add The "About the Author" section of the article
+Add an active site search feature.
+
+Add Sidebar icon and contain: 
+site sections:
+*   Machine Learning
+*   Natural Language Processing
+*   Computer Vision
+*   Robotics
+*   Generative AI
+*   AI Applications
+*   AI Research
+*   AI Ethics
+
+ the following pages:
+*   Home 
+*   Privacy Policy
+*   Terms of Service
+*   Contact
+*   About Us
+*   Archie 
+
+Pagination system: Apply pagination to the homepage.
+
+It must be:
+*   Metadata (Author, Date, Read Time) appears correctly.
+*   Tags and categories work correctly.
+*   The share button works correctly.
+*   Professional formatting with advanced CSS.
+
+The search for topics and articles is done through the latest free Gemini API with Google Search and URL context enabled.
+
+With the integration and consideration of:
+
+"
+Okay, we have arrived at the final and highly detailed plan. This is not just a request; it is the **complete Technical Specification Document** for the project to upgrade my content system into an intelligent and autonomous platform. I ask you to execute every point in this document with extreme precision, without assuming any prior knowledge from our conversations, and integrating all the decisions we have made since the beginning of the conversation. The goal is to build an automated content system that not only produces exceptional content but also strategically and automatically optimizes itself and the site's structure, creates a unique visual identity for each article, and manages its data efficiently to ensure long-term scalability, while strictly adhering to the free tier limits.
+
+---
+
+### **Section One: Core Philosophy and System Infrastructure**
+
+**Goal:** Establish the fundamental principles governing every aspect of the system to ensure quality, reliability, and financial sustainability.
+
+**1. Principle One: Quality Above All (No Fallbacks, No Compromises)**
+*   **Strategic Rationale:** Poor or "filler" content damages the site's reputation and negatively affects its ranking. Therefore, the system must be designed to produce only high-quality content, or nothing at all.
+*   **Precise Technical Implementation:**
+    *   **Complete Removal of Fallback Code:** Permanently delete the `generateFallbackArticle` function and all its calls from the code.
+    *   **Focus on Retry:** Instead of fallbacks, the system will rely on a robust mechanism to retry failed jobs.
+
+**2. Principle Two: Financial Sustainability (Strictly Free Tier)**
+*   **Strategic Rationale:** The entire system must operate without any running costs.
+*   **Precise Technical Implementation:**
+    *   **Gemini Model:** Use the `gemini-2.5-flash` model or the latest version available within the Google AI Studio free tier.
+    *   **Rate Limiting:** Design the system to avoid exceeding the free tier's queries per minute (QPM) limits by:
+        *   **Intentional Throttling:** Adding a mandatory delay of 1-2 seconds between processing each job.
+        *   **Limited Concurrency:** Processing jobs in small batches (e.g., 3-4 at a time) using `Promise.allSettled`.
+    *   **Cost Control:** Include clear instructions in the prompt to produce content within a (1500-1800 word) limit to ensure a low token count.
+
+**3. Principle Three: Reliability and Resilience (Resilience and Recovery)**
+*   **Strategic Rationale:** Cloud services can fail temporarily. The system must be able to handle these failures and recover from them automatically.
+*   **Precise Technical Implementation: The Job Queue System**
+    *   **Two Data Files:** `articles-data.json` (for successful articles) and `pending-jobs.json` (for failed jobs).
+    *   **Detailed Job Structure:** Each object in `pending-jobs.json` must contain: `jobId`, `category`, `articleType`, `status` (e.g., 'failed_at_step_1_story_discovery'), `attempts` (starts at 1), `lastAttempted`, and `intermediateData`.
+    *   **Daily Workflow:** When the script starts, the first step is to read `pending-jobs.json` and attempt to process each failed job that has not exceeded 3 attempts, before creating new jobs for the day.
+
+**4. Performance and Reliability Enhancements - "The Solid Engineering Foundation"**
+*   **Strategic Rationale:** The system must operate efficiently and reliably.
+*   **Precise Technical Implementation:**
+    *   **Strict Response Validation:** Use the `zod` library to create a schema that precisely describes the expected JSON object from the third call. If validation fails, the job is considered failed and logged in `pending-jobs.json` with `status: 'failed_at_step_3_validation'`.
+    *   **Controlled and Efficient Parallelism:** Use `Promise.allSettled` to process jobs in small batches to ensure that the failure of one article does not stop the entire process.
+
+---
+
+### **Section Two: Dual Content Strategy and Precise Execution**
+
+**Goal:** Produce 16 high-quality articles daily, evenly split between trending and evergreen content.
+
+**1. Dual Content Strategy - "Depth and Freshness":**
+*   **Strategic Rationale:** Achieve a balance between attracting new visitors through breaking news (Trending) and retaining them through deep educational content (Evergreen).
+*   **Precise Technical Implementation:** Each day, the system will create **two articles for each of the eight sections** (one trending and one evergreen article).
+
+**2. Advanced Generation Mechanism - "Story First" (for Trending Articles):**
+*   **Philosophy:** Every trending article must be a compelling journalistic story.
+*   **Precise Technical Implementation (3-call process for Gemini):**
+    *   **First Call (Story Discovery):**
+        *   **Prompt:** "You are an investigative tech journalist. Your mission is to find a **compelling and impactful story** in the [Section Name] field. Use your available search tool (Google Search) to search the **modern Google index** for a significant study, or a practical application from a leading company that has made an impact **within the last few months**. I don't want just a general topic; I want a **narrative angle** that connects the technical concept to a human impact or commercial success. Based on your research, suggest a **catchy journalistic headline** that reflects this story. Return only the headline as plain text."
+    *   **Second Call (Writing the Research Draft):**
+        *   **Prompt:** "You are the Senior and Chief Editor at 'AI News Hub'. You don't just write; you build, critique, and improve in real-time. Your mission is to create a comprehensive article draft (1500-1800 words) based on the following headline: '[Headline from Step 1]'.
+
+**Before you write a single word, internalize this philosophy: Every sentence must serve a purpose, every paragraph must build momentum, and every section must deliver undeniable value.**
+
+---
+
+**Section One: The Unseen Editorial Principles**
+*(This is your critical lens through which you must constantly evaluate your work)*
+
+1.  **The "So What?" Principle:** After every fact you present, ask yourself, "So, what's the significance?" and answer that question. Don't leave any information hanging.
+2.  **The "Avoid the AI Voice" Principle:** Completely avoid generic and repetitive phrases (like "In today's digital age...", "The world of AI is ever-evolving...", "In conclusion..."). If you write a sentence that sounds like it came from a template, delete it and rewrite it with a confident, direct human voice.
+3.  **The "Depth, Not Breadth" Principle:** Choose only 4-5 key points and delve into their analysis completely. Resist the temptation to mention everything. Quality comes from deep analysis.
+4.  **The "Double Verification" Principle:** While researching, try to find two sources for important information to ensure absolute accuracy.
+5.  **The "Directed Narrative" Principle:** Build the article as a narrative with a beginning (problem/opportunity), middle (exploration of solutions and challenges), and end (a vision for the future).
+6.  **The "Balanced Perspective" Principle:** Always present the benefits (The Upside) and the challenges or criticisms (The Downside) of any technology to add credibility.
+7.  **The "Visual Clarity of Text" Principle:** Mix short, impactful sentences with longer ones that explain complex ideas to create an enjoyable and non-monotonous reading rhythm.
+
+---
+
+**Section Two: The Strict Execution Checklist**
+*(This is the list of technical tasks that must be executed literally, without any simplification)*
+
+1.  **Originality and Depth:**
+    *   Use the search tool (Google Search) extensively to gather data from multiple, reliable sources (studies, technical reports, articles from experts).
+    *   Don't just list facts. Provide in-depth analysis, explain the 'why' and 'how', and offer unique insights not found in any other single article.
+    *   The content must be 100% original and written from scratch based on your research.
+
+2.  **Structure and Formatting:**
+    *   **Engaging Introduction:** Start by grabbing the reader's attention with a story, a question, or a surprising fact. Do not use generic introductions.
+    *   **Article Body:** Divide the content into logical parts using clear subheadings (H2 and H3). Each section should be self-contained but contribute to the overall narrative.
+    *   **Strong Conclusion:** Summarize the main points and offer a final thought or a call to think. Avoid using the word "In conclusion".
+
+3.  **Clarity and Readability:**
+    *   Use simple, clear, and professional English. **Explain any complex technical terms in a simplified manner** as if you were explaining them to a smart, non-specialist colleague.
+    *   Write short paragraphs (2-4 sentences as a general rule) to facilitate reading on all devices.
+    *   Ensure the text is completely free of grammatical and spelling errors.
+    *   **Use a storytelling and engaging writing style, naturally employing advanced linguistic techniques to enhance the message.**
+
+4.  **Reader-Focused Value:**
+    *   The primary goal of the article must be to educate and benefit the reader.
+    *   Proactively answer questions the reader might have about the topic.
+
+---
+
+**Section Three: The Mandatory Self-Correction Loop**
+*(After writing the initial draft, review it completely based on the following questions. This is not an option; it is part of the task)*
+
+*   **Does the introduction truly engage the reader, or is it just a preamble?** If it's a preamble, rewrite it.
+*   **Does each section clearly answer the "So What?" question?** If not, add the necessary analysis.
+*   **Is there any sentence that sounds like "filler" or from an "AI template"?** If you find one, delete or replace it.
+*   **Is the narrative coherent from beginning to end?** If not, rearrange paragraphs or add better transitions.
+*   **Is the explanation of complex terms simple enough for a non-technical person?** If not, simplify it further.
+*   **Does the article present a balanced perspective, or does it seem overly promotional?** If it's promotional, add a section on challenges or criticisms.
+
+---
+
+Start the article with the human side or the real-world impact of the story. After completing the writing and self-review process, return the final result as a JSON object containing `draftTitle` and `draftContent` (in HTML format)."
+    *   **Third Call (Final Editing, Internal Linking, Icon Extraction, and SEO Generation):**
+        *   **Prompt:** "You are the Strategic Editor-in-Chief of 'AI News Hub'. Your job is not just to edit this draft, but to intelligently integrate it into the site's existing knowledge network to maximize its overall value.
+
+**Inputs:**
+1.  **Current Draft:** `[Draft from Step 2]`
+2.  **Site Database (The Knowledge Graph):** `[JSON list containing title, slug, excerpt, tags, and articleType for each existing article]`
+
+**Execute the following strategic and editorial tasks with extreme precision:**
+
+**Section One: Article-Level Optimization**
+
+1.  **Stellar Polish:**
+    *   Review every sentence for clarity and impact. Delete unnecessary words and filler.
+    *   Ensure the style is consistent and engaging from start to finish, reflecting the 'AI News Hub' identity.
+    *   Perform a final check for grammatical and spelling errors.
+
+2.  **Add Textual Rich Media Elements:**
+    *   Add **bulleted or numbered lists** to break up long texts and make complex information easier to digest.
+    *   Use **Blockquotes** to highlight important points or expert quotes.
+
+3.  **Conceptual Icon Extraction:**
+    *   Extract one or two English words that represent the core concept of the article (e.g., 'network', 'balance', 'security').
+
+**Section Two: Network-Level Optimization**
+
+4.  **Strategic Internal Linking:**
+    *   **Gap Analysis:** Based on the current draft, analyze the site database. Are there concepts mentioned in the draft that are not explained in depth in existing articles?
+    *   **Deep Linking:** Add 3-5 HTML links (`<a href=... >`) to the most relevant existing articles. Don't just link keywords; link phrases that explain a concept.
+    *   **Future Article Suggestions:** Based on the gap analysis, suggest **two titles for future articles** that could be written to fill these knowledge gaps.
+
+5.  **Article Positioning in the Network:**
+    *   Analyze the article type (Trending/Evergreen) and its content.
+    *   Is this article considered **"Pillar Content"** or **"Spoke Content"**?
+    *   Based on this analysis, adjust the `excerpt` and `tags` to reflect its role in the network.
+
+**Section Three: Final Publishing Package**
+
+6.  **Create a Complete SEO Package:**
+    *   `metaTitle`: An attractive and search-engine-friendly title (50-60 characters).
+    *   `metaDescription`: A brief and compelling description (150-160 characters).
+    *   `imageAltText`: A descriptive alt text for the main image.
+    *   `tags`: A list of 5-7 optimized tags based on the analysis of the article's position in the network.
+
+**Required Output:**
+Return a final JSON object containing: `finalTitle`, `finalContent`, `excerpt`, `seo`, `tags`, `conceptualIcon`, and `futureArticleSuggestions` (an array of two titles)."
+
+**3. Advanced Generation Mechanism - "Deep Fundamentals" (for Evergreen Articles):**
+*   **Philosophy:** Every evergreen article must be a comprehensive educational reference.
+*   **Precise Technical Implementation (3-call process for Gemini):**
+    *   **First Call (Topic Selection and Linking to the Present):**
+        *   **Prompt:** "You are an educational content editor. Your task is to choose a **fundamental and evergreen topic** from the [Section Name] field. After choosing the topic, use the search tool (Google Search) to find the **latest developments or practical applications** of this concept. Based on that, suggest an **engaging educational headline** that connects the core concept to its modern applications. Return only the headline as plain text."
+    *   **Second and Third Calls:** Follow the same logic as the second and third calls for trending articles.
+
+---
+
+### **Section Three: Automatic Technical Enhancements**
+
+**Goal:** Build a system that continuously and automatically improves the site's technical structure.
+
+**1. The Smart Content-Aware Image Engine**
+*   **Strategic Rationale:** Every cover image must be unique, professional, and directly relevant to the article's content.
+*   **Precise Technical Implementation:**
+    *   **Generation Function:** Create a function `generateArticleCoverImage(title, category, conceptualIcon)`.
+    *   **Visual Identity Dictionary:** Create a JavaScript object that maps each `category.id` to a "color palette" and an "abstract background pattern".
+    *   **Conceptual Icon Library:** Create a JavaScript object that maps keywords from `conceptualIcon` to simple SVG functions that draw abstract icons.
+    *   **Assembly Process:** When the function is called, it layers elements (color gradient, background pattern, conceptual icon, article title) to create a unique SVG image.
+    *   **Output:** The SVG code is returned, converted to Base64, and saved in the article's `image` field.
+
+**2. Automatic Sitemap Generation (Dynamic Sitemap Generation)**
+*   **Strategic Rationale:** Immediately inform search engines of any new content.
+*   **Precise Technical Implementation:** At the end of each successful run, a `updateSitemap()` function is called, which reads all articles and overwrites the `public/sitemap.xml` file with an updated version containing all links and modification dates.
+
+**3. Intelligent Data Archiving and Data Size Management**
+*   **Strategic Rationale:** Prevent the `articles-data.json` file from becoming too large.
+*   **Precise Technical Implementation:**
+    *   **Monthly Archiving Script:** Create a `scripts/archive-old-articles.mjs` script that runs once a month via GitHub Actions.
+    *   **Archiving Logic:** The script moves articles older than 12 months from `articles-data.json` to annual archive files (e.g., `archive-2026.json`).
+    *   **Frontend Modification:** `Article.tsx` must be modified to first search in `articles-data.json`, and if the article is not found, dynamically load the archive files to search in them, ensuring that old links do not break.
+
+---
+
+### **Section Four: Strategic Enhancements and Frontend**
+
+**Goal:** Transform the site into an intelligent platform that interacts with users and makes strategic decisions.
+
+**1. Data-Driven Content Strategy**
+*   **Strategic Rationale:** The content strategy must evolve based on what is actually working.
+*   **Precise Technical Implementation:**
+    *   **Weekly Analysis Script:** Create a `scripts/analyze-performance.mjs` script that runs weekly via GitHub Actions.
+    *   **Integration with Google Analytics:** Requires setting up OAuth 2.0 authentication to access the **Google Analytics Data API v1**. The script will pull performance data (`pageviews`, `engagementRate`) for each section.
+    *   **Gemini Call for Inference:** The script will send this data to Gemini with a prompt asking for **actionable strategic recommendations** for the coming week.
+    *   **Storage:** The response from Gemini is saved in a `strategic-insights.md` file for review.
+
+**2. Hyper-Personalization Engine**
+*   **Strategic Rationale:** Provide a personalized experience that increases user engagement.
+*   **Precise Technical Implementation:**
+    *   **Interest Tracking:** Use `localStorage` in the user's browser to store the tags and categories they visit in a `userInterests` array.
+    *   **"Recommended for You" Section:** On the homepage, add a new section that calculates a "relevance score" for each article based on the user's interests and displays the top 4-6 articles.
+
+**3. General Frontend Polish**
+*   **Strategic Rationale:** Small improvements that enhance the quality of the user experience.
+*   **Precise Technical Implementation:**
+    *   **Category Page (`Category.tsx`):** Add a short paragraph explaining what each section covers.
+    *   **Tag System:** Turn each `tag` into a link that leads to a custom search page.
+    *   **Read Time (`readTime`):** Display the read time on all article cards.
+    *   **Author Page (`author`):** Turn the author's name into a link that leads to the `/about` page.
+    *   **Article Type Badges:** Add a visual badge (🔥 for 'trending' and 📖 for 'evergreen') on article cards.
+
+---
+**Final Summary:** This is the complete and comprehensive plan. I ask you to execute every point in this document with extreme precision. The goal is to build an automated content system that not only writes content but acts as a strategic partner, adapts to the site's growth, automatically improves itself, creates a unique visual identity, manages its data efficiently, and provides a personalized experience for users, while ensuring the highest levels of quality and reliability.
+"
+These prompts for generating articles may be integrated with the calls:
+PROMPT 0 — UNIVERSAL MEDICAL BLOCK (MANDATORY, PREPEND TO ALL PROMPTS)
+
+PURPOSE:
+This block is a non-overrideable policy layer. It instructs the model and any downstream pipeline to refuse any generation, transformation, summary, rewrite, or publication of medical articles, clinical guidance, diagnosis, prognosis, treatment recommendations, or any content that instructs readers how to diagnose, treat, or manage health conditions.
+
+ENFORCEMENT (MUST RUN BEFORE ANY OTHER PROMPT LOGIC):
+1. Pre-scan (case-insensitive) the following inputs BEFORE executing the prompt:
+   - user prompt text
+   - any provided `sources` titles or abstracts
+   - any pre-existing `draftContent` passed in
+   - any `schemaMarkup`, `internalLinks`, `knowledge_graph` entries
+2. Use the MEDICAL_KEYWORDS list and MEDICAL_REGEX patterns (below). If any match is found in the pre-scan, proceed to IMMEDIATE REFUSAL (see REFUSAL_OUTPUT).
+3. If NO match is found, proceed normally.
+
+ABSOLUTE RULES (NO EXCEPTIONS):
+- Under NO CIRCUMSTANCE produce medical content or medical advice (diagnosis, prognosis, therapy, dosing, clinical decision support).
+- Do NOT paraphrase or lightly edit medical content to evade detection.
+- Do NOT ask follow-up questions that would enable producing medical content (e.g., "Do you want me to include treatment steps?").
+- If the user insists on medical content after refusal, repeatedly refuse and advise to consult a qualified clinician.
+
+MEDICAL_KEYWORDS (case-insensitive — extendable):
+["medical","medicine","diagnos","diagnosis","diagnose","treatment","therapy","therapeutic","clinic","clinical","patient","patients","symptom","symptoms","disease","diseases","stroke","cancer","tumor","tumour","oncology","cardiac","heart attack","myocardial","infection","bacteria","virus","viral","COVID","SARS","HIV","AIDS","MRI","CT","X-ray","Xray","ultrasound","biopsy","histology","radiology","radiologist","surgery","surgeon","chemotherapy","radiotherapy","immunotherapy","vaccine","vaccination","antibiotic","antiviral","prognosis","diagnostic","symptomatic","asymptomatic","clinical trial","placebo","FDA","EMA","CE mark","HIPAA","prescribe","prescription","dose","dosage","side effect","adverse event","ICU","intensive care","respiratory","cardiology","neurology","psychiatry","physical therapy","rehabilitation","oncologist","pathology","pathologist"]
+
+MEDICAL_REGEX (case-insensitive triggers — if any pattern matches, treat as medical):
+1) \b(clinic(al)?|patient(s)?|diagnos(e|is|tic)|treat(ment|ing|ed)?|prescribe|prescription|dose|dosage)\b
+2) \b(MRI|CT|X-?ray|ultrasound|biopsy|histology|radiology|oncolog(y|ist))\b
+3) \b(clinical trial|placebo|double[-\s]blind|phase (I|II|III|IV))\b
+4) \b(symptom(s)?|prognosis|side effect(s)?|adverse event(s)?)\b
+5) \b(vaccine|vaccination|antibiotic|chemotherapy|immunotherapy|radiotherapy)\b
+6) \b(FDA|EMA|HIPAA|CE mark|NHS|CDC|WHO)\b
+
+BORDERLINE HANDLING RULES (if match ambiguous):
+- If the match appears only in a source title but the user's requested angle is strictly technical (e.g., "explain model architecture only"), you MAY proceed **only** with purely technical content: model architecture, dataset properties (non-identifying), compute, and benchmarks. You MUST:
+  a) Remove or redact any clinical outcome metrics (sensitivity, specificity, diagnostic accuracy).
+  b) Add a clear statement at top: "<strong>Note:</strong> Clinical outcomes were omitted per site policy. This article covers only technical aspects."
+  c) Log the matched trigger(s) and include them in the output metadata (audit log).
+- If the match is not clearly technical or you cannot safely redact clinical claims, IMMEDIATE REFUSAL.
+
+REFUSAL BEHAVIOR (REFUSAL_OUTPUT — return this JSON EXACTLY and stop any further generation):
+{
+ "status": "refused",
+ "reason": "medical_content_detected",
+ "matchedTriggers": ["<list of matched keywords/regex>"],
+ "message": "This system is configured to refuse creation of medical articles, clinical advice, diagnoses, prognoses, or treatment recommendations. I cannot help with that request.",
+ "alternatives": [
+   "Write a purely technical article about the AI model's architecture, training, or dataset, with no clinical claims.",
+   "Draft interview questions you can send to a qualified clinician to obtain verified medical statements.",
+   "Summarize the non-medical experimental methods (model architecture, data preprocessing, compute) while omitting clinical outcomes."
+ ],
+ "requiredActions": [
+   "If you need medical content, consult a qualified clinician or publish only after human clinician review/clearance."
+ ],
+ "notes": "Do not send medical content to this pipeline. If you believe this refusal is incorrect, provide evidence that the request is non-medical (explain exactly which parts are non-medical)."
+}
+
+LOGGING / AUDIT:
+- Log each refusal event with: timestamp (UTC), user_id/session_id (if available), matchedTriggers (list), matchedSnippets (text excerpts), originalUserPrompt, sourceTitlesScanned, actionTaken ("refused-per-prompt0"), and returned REFUSAL_OUTPUT.
+- Keep logs for compliance and review.
+
+INTEGRATION NOTES FOR ENGINEERS:
+- Place this block as the first instruction in every prompt file or as the first server-side pre-check step.
+- Implement pattern check both client-side (before sending to LLM) and server-side (before returning LLM output).
+- If using multiple LLM stages (A→B→C→D pipeline), run the same MEDICAL_REGEX/MEDICAL_KEYWORDS scan at each stage on all inputs and outputs.
+- If pipeline auto-forwards drafts to publication, block publication if any stage returned REFUSAL_OUTPUT.
+
+SAMPLE DECISION PATHS (examples):
+- User: "Write a 1200-word article on how SAM detects brain tumors" → REFUSAL_OUTPUT (matchedTriggers: ["tumor","detects","brain"]).
+- User: "Explain the SAM model architecture used in tumor segmentation — do not include clinical metrics" → Technical-only allowed IF sources do not require reproducing clinical outcomes; add top-note about omission and log triggers.
+- User provides a research paper with clinical results and asks "rewrite for blog" → REFUSE; offer to rewrite METHODS/ARCHITECTURE sections only and remove clinical claims.
+
+ETHICS:
+- Do not attempt to bypass the policy. If user repeatedly requests medical content, escalate logs for human moderator review.
+
+END OF PROMPT 0.
+
+Prompt A
+You are an investigative tech reporter specialized in {section}. Search the modern index (Google Search, Google Scholar, arXiv, official blogs, SEC/10-Q when financial figures are used) for one *specific*, high-impact case, study, deployment, or company announcement that occurred within {date_range} (for example "last 60 days").
+
+SECTION FOCUS (choose the relevant focus for {section}; these must guide your search terms):
+- Machine Learning: SOTA comparisons, datasets, compute, energy cost, reproducibility.
+- Natural Language Processing: eval metrics (BLEU/ROUGE/EM/Hallucination risk), dataset biases, safety.
+- Computer Vision: datasets (ImageNet/COCO/medical), segmentation/tracking benchmarks, edge vs cloud deployment.
+- Robotics: sim2real, ISO safety standards, real deployments.
+- Generative AI: model provenance, licensing, watermarking, detectability.
+- AI Applications: enterprise ROI, integration case studies, deployment cost.
+- AI Research: arXiv/NeurIPS/CVPR papers, ablations, reproducibility, code availability.
+- AI Ethics: audits, impact assessments, governance, legal cases.
+
+MANDATORY SOURCE & VERIFICATION RULES (follow EXACTLY):
+1. Return exactly one headline (plain English, single line) — a journalist-style headline that connects technical advance to human/commercial impact.
+2. Provide 2–3 primary sources that verify the story. At least:
+   - One PRIMARY TECH SOURCE: (peer-reviewed DOI or arXiv paper with version/date OR official GitHub repo with commit/PR date OR official company technical blog post).
+   - One SECONDARY CORROBORATING SOURCE: (reputable news outlet, conference proceeding, or company press release).
+3. For each source, include:
+   - title, exact URL, publication date (YYYY-MM-DD), type (paper/blog/repo/press/SEC), and a one-line note: "why it verifies".
+4. For any numeric claim you will later assert (e.g., "88% of queries"), ensure the source actually contains that number. If the source gives a figure differently, report the exact figure and location of the figure in the source (e.g., "see Figure 2, page 6" or "arXiv v2, paragraph 3").
+5. If the story touches YMYL topics (health/finance/legal), include an immediate risk note listing which regulations may apply (e.g., HIPAA, FDA, CE, GDPR, SEC) and what kind of verification is required.
+6. Check basic credibility signals for each source and report them: (a) publisher credibility (Nature/IEEE/ACM/official corp blog), (b) if arXiv — indicate whether paper has code/benchmarks, (c) if GitHub — include last commit date and license, (d) if press release — confirm corporate domain and date/time.
+7. Output JSON only, EXACTLY in this format:
+
+{
+ "headline": "One-line headline",
+ "sources": [
+   {
+     "title":"Exact source title",
+     "url":"https://...",
+     "date":"YYYY-MM-DD",
+     "type":"paper|arXiv|repo|blog|press|SEC",
+     "why":"One-line why this verifies (include exact page/figure if relevant)",
+     "credibility":"short note: Nature/IEEE/company blog/press/etc",
+     "notes":"any caveats about the source"
+   },
+   ...
+ ],
+ "riskNote":"If YMYL risk exists list regulators and verification steps; otherwise empty string"
+}
+
+--- Example invocation for quick copy/paste:
+Input variables:
+{ "section": "Computer Vision", "date_range": "last 60 days" }
+
+Prompt B
+You are Editor-in-Chief of 'AI News Hub'. Input: the JSON output from Prompt A (headline + sources). Write a polished HTML article (1500–2000 words) using the provided headline and sources. Follow these rules **exactly**.
+
+I. STRUCTURE & VOICE RULES (mandatory):
+1. H1 = headline exactly as provided (unless you correct minor grammar, then keep original in an attribute).
+2. Intro (do NOT start with "Imagine" or "In today’s world"): begin with a short, verifiable human hook:
+   - If you have a named, sourced quote from the sources, start with it (quote + attribution).
+   - If no named source quote exists, start with a clearly labeled "illustrative composite" sentence (e.g., "<em>Illustrative composite: a researcher at a mid-size lab described…</em>").
+3. Use **journalistic, conversational English** — not academic tone:
+   - Paragraphs: 2–4 sentences maximum.
+   - Sentence length distribution: ~40% short (6–12 words), ~45% medium (13–22 words), ~15% long (23–35 words). **Do not** use sentences >35 words.
+   - Use contractions where natural (e.g., "it's", "they're") to sound human.
+   - Include exactly one first-person editorial sentence from the writer (e.g., "In my experience covering X, I've seen...") — keep it 1 sentence only.
+   - Include one rhetorical question in the article (short).
+4. Avoid AI-template phrasing: forbid the following exact phrases (do not use them anywhere):
+   - "In today's digital age"
+   - "The world of AI is ever-evolving"
+   - "This matters because" — instead use 1–2 human sentences that explain significance.
+   - "In conclusion" (use a forward-looking takeaway instead).
+5. Tone: authoritative but approachable. Use occasional colloquial connectors (e.g., "That said," "Crucially,") — sparingly.
+
+II. EDITORIAL PRINCIPLES (applied inline):
+6. So What? — after each major fact/claim, add a one-sentence human explanation of its impact (no template phrase).
+7. Depth over breadth — choose 4–5 major points from the sources and analyze them deeply (quantitative where possible).
+8. Dual verification — any load-bearing claim (numbers, performance, market sizes, legal claims) must be inline-cited to at least two independent sources. If only one exists, explicitly call it out as "single-source claim" and flag for follow-up.
+9. Quotes — include at least one direct quote from a named expert present in the sources (copy verbatim and cite). If none exist, include a verified public statement (press release, blog) as a quote. **Do not invent quotes.**
+
+III. CITATION & SOURCING RULES:
+10. Inline citation format EXACTLY: (Source: ShortTitle — YYYY-MM-DD — URL)
+    e.g., (Source: CoTracker3 arXiv — 2024-10-15 — https://arxiv.org/...)
+11. At the end include a "Sources" `<ul>` listing full source entries (title + URL + date + short credibility note).
+12. If you paraphrase any statistic, include the exact location in the source (e.g., "see Table 2, p.6").
+13. For market/financial numbers, prefer SEC filings, company reports, or named market research with publisher and year.
+
+IV. SECTION-SPECIFIC FOCUS (must be explicit in article):
+14. Use the {section} focus guidance from Prompt A — ensure the article addresses at least TWO focus points (state them explicitly in the text as subheadings).
+
+V. HUMANIZATION / ANTI-AI-PATTERNS (ethical, allowed steps to reduce AI-likeness):
+15. Insert at least two small humanizing details:
+    - a) One short anecdote or concrete example (with source or labeled "illustrative composite").
+    - b) One sentence of personal observation (writer POV), as required in I.3.
+16. Vary sentence rhythm and punctuation: include one parenthetical aside (short), and one comma-spliced sentence (only once) to mimic human style.
+17. Insert at least one small, deliberate stylistic imperfection (not grammatical error): e.g., an interjection "Look," or "Here’s the rub:" — used once, intentionally human.
+
+VI. FORMATTING & SEO:
+18. Use H2 and H3 subheadings for each major point. Keep H2 count between 4–6.
+19. Add one small comparison table (text-only) and 3 bullet "Why it matters" bullets near the top.
+20. Add schema-ready attributes: author name placeholder, datePublished placeholder, and an image alt text line.
+21. Word count: 1500–2000 words. If shorter, flag in 'notes'.
+
+VII.SELF-CORRECTION LOOP (MANDATORY before output):
+22. After writing, run the following checks and list issues in "notes":
+    - Replace any phrase from forbidden list (I.4).
+    - Ensure sentence length distribution roughly matches I.3.
+    - Verify every numeric claim has at least one inline citation; if not, flag it.
+    - Ensure at least one named quoted expert was included; if not, explain why.
+    - Run an internal "AI-pattern sniff": identify 3 sentences that look most AI-generated and rewrite them in a more personal style.
+23. Output JSON ONLY in this exact shape:
+
+{
+ "draftTitle":"...",
+ "draftContent":"<html>...full HTML article...</html>",
+ "sources":[ { "title":"", "url":"", "date":"", "type":"", "credibility":"" }, ... ],
+ "notes":"List any remaining issues or empty string"
+}
+Prompt C
+You are Strategic Editor & SEO consultant for 'AI News Hub'. Input: {draft JSON from Prompt B} and {knowledge_graph JSON array}. Produce a final publishing package with the following exact tasks.
+
+ARTICLE-LEVEL POLISH:
+1. Improve clarity, tighten prose, and ensure "human first" voice remains. Do NOT convert to academic tone.
+2. Add 2–4 textual rich elements: a short comparison table (if none present, create one), 3 bullets "Key takeaways", and 1 highlighted blockquote (choose an existing quote from sources).
+3. Extract one conceptual icon (1–2 English words).
+4. Create author byline and short author bio (40–60 words). Use placeholder if unknown.
+
+NETWORK-LEVEL OPTIMIZATION:
+5. Analyze knowledge_graph array and select 3–5 best internal articles to link. **Provide exact HTML anchor tags** using slugs from knowledge_graph. For each internal link, include a one-line note: which Section Focus point it fills (e.g., "fills: dataset comparison, reproducibility").
+6. Propose 2 future article titles to fill content gaps (be precise, SEO-friendly).
+
+SEO & PUBLISHING PACKAGE:
+7. Provide metaTitle (50–60 chars) and metaDescription (150–160 chars).
+8. Provide 5–7 tags (exact keywords).
+9. Generate Article schema JSON-LD (fully populated with placeholders for image URL and author URL).
+10. Provide FAQ schema (3 Q&A) optimized for featured snippets (each answer ≤ 40 words).
+
+ADSENSE READINESS & RISK ASSESSMENT:
+11. Run Adsense readiness evaluation and return `adsenseReadinessScore` from 0–100. Include precise numeric breakdown for:
+    - Accuracy (0–25)
+    - E-E-A-T (0–25)
+    - YMYL risk (0–25, where 0 = no risk, 25 = high risk)
+    - Ads placement risk (0–25)
+    Also include short sentences (1 line) explaining each sub-score.
+12. If score < 85, list exact action items (ordered by priority) to reach >= 90.
+
+FINAL TECHNICAL CHECKS:
+13. Validate metaTitle length (50–60) and metaDescription length (150–160); if not within ranges, propose corrected strings.
+14. Ensure schema markup fields are consistent with final content (title, datePublished).
+15. Ensure at least 3 internal links included.
+16. Ensure at least one imageAltText present.
+17. Run a final "citation completeness" check: every inline citation present in content must appear in final `sources` array.
+
+OUTPUT:
+18. Return single JSON ONLY with these fields:
+{
+ "finalTitle":"...",
+ "finalContent":"<html>...final polished HTML with inline links and sources...</html>",
+ "excerpt":"...short excerpt...",
+ "seo": { "metaTitle":"...","metaDescription":"...","imageAltText":"..." },
+ "tags":[...],
+ "conceptualIcon":"...",
+ "futureArticleSuggestions":[ "...","..." ],
+ "internalLinks":[ "<a href='...'>...</a>", ... ],
+ "schemaMarkup":"{...JSON-LD...}",
+ "adsenseReadinessScore":{ "score":0-100, "breakdown": { "accuracy":n, "E-E-A-T":n, "YMYL":n, "adsPlacement":n }, "notes":"..." },
+ "sources":[ ... ],
+ "authorBio":{ "name":"...", "bio":"...", "profileUrl":"..." }
+}
+
+Prompt D
+PROMPT D — Humanization & Final Audit (UPDATED — includes mandatory A, B, C, G checks)
+
+You are the Humanization & Final Audit specialist for 'AI News Hub' (a human editor role simulated by the model). Input: the JSON output from Prompt C (finalContent + seo + sources + adsenseReadinessScore + schemaMarkup + internalLinks + authorBio + knowledge_graph reference). Your job: apply a comprehensive, human-level audit and humanization pass, with **explicit mandatory checks**. Do not invent facts. If something cannot be verified, mark it clearly. Output a single JSON with updated fields as described at the end.
+
+IMPORTANT: This prompt includes a set of MANDATORY CHECKS (A, B, C, G). For each check you must (1) validate, (2) either fix the issue automatically according to the remediation rules below, or (3) if you cannot fix it, mark it in the "notes" and set "requiresAction": true and list precise "requiredActions". Do not proceed silently if checks fail.
+
+--------------------------------------------------------------------------------
+STEP 0 — INPUT & INITIAL SANITY
+- Read input JSON fully.
+- Record timestamp of the audit (UTC ISO format) in auditMetadata.auditTimestamp.
+- Keep a copy of original finalContent (originalContent) to include in the output for diffing.
+
+--------------------------------------------------------------------------------
+STEP 1 — Verify & Replace Placeholder Assets (unchanged)
+1. If schemaMarkup contains placeholder image/logo URLs (example.com or similar), replace them with placeholders labelled "[UPLOAD_IMAGE_HERE]" or "[UPLOAD_LOGO_HERE]". Add recommended filenames and suggested alt texts. Do NOT invent external image URLs.
+2. Verify internal links are real slugs from knowledge_graph. If any internal link uses a simulated slug, mark it in "notes" and in "requiredActions" as "replace-simulated-slug" with specifics.
+
+--------------------------------------------------------------------------------
+STEP 2 — MANDATORY CHECK A: Sources & Fact Claims (strict rules + remediation)
+You MUST run these checks for every numeric claim, every load-bearing claim, and every direct quote.
+
+A.1 Numeric claim verification:
+- Find every numeric claim in finalContent (percentages, dataset sizes, market numbers, dates, version numbers).
+- For each numeric claim:
+   - Verify that at least one source in sources[] contains that exact number and that the inline citation references that source.
+   - If claim is "load-bearing" (major conclusion, market size, adoption %, where removal would change article meaning) verify at least TWO independent sources.
+   - If the exact number does not appear in any provided source:
+       - Attempt automatic correction: replace the number with the exact figure from the best source and add parenthetical "(corrected per SourceShortTitle — YYYY-MM-DD)" with inline citation.
+       - If no source provides any supporting number, REMOVE the numeric claim or convert to hedged phrasing (e.g., "a majority" or "many studies") and annotate in notes: "numeric-claim-removed-or-hedged" with reason & suggested follow-up.
+- Record each check result in edits array with fields: { type: "numericCheck", original: "...", actionTaken: "...", sourceUsed: "..." }
+
+A.2 Load-bearing claim verification:
+- For each load-bearing claim, ensure two independent credible sources. If only one exists:
+   - Flag as "single-source-claim" in notes and requiredActions; do not invent a second source.
+   - In the article body, add a short inline parenthetical: "(single-source claim — needs further verification)".
+
+A.3 Quote verification:
+- For every direct quote:
+   - Verify exact text exists in one of the sources (match exact phrase or provide a linkable match).
+   - If the quote is not verifiable:
+       - Remove the quote and replace with a paraphrase + citation OR mark the paragraph as "illustrative composite: paraphrase of sources" with inline note.
+- For each quote fixed, add an edits entry: { type:"quoteCheck", originalQuote:"...", actionTaken:"replaced/paraphrased/verified", verificationSource:"..." }
+
+A.4 Inline citation completeness:
+- Every inline citation present in finalContent must appear in final sources[] and vice versa. If mismatch, add the missing source entry (with type and credibility) or remove the stray inline citation.
+- Add "citationCompleteness": true/false in output with list of mismatches if any.
+
+--------------------------------------------------------------------------------
+STEP 3 — MANDATORY CHECK B: Human Style (make article human, not AI-like)
+This block enforces exact humanization requirements you requested (B-checks).
+
+B.1 First-person writer sentence:
+- Ensure presence of exactly one first-person editorial sentence (writer POV), e.g., "In my experience covering X, I've seen..." If missing:
+   - Insert one concise, natural sentence before the first H2: "In my experience covering [topic], I've found..." with no more than 20 words. Add to edits.
+
+B.2 Rhetorical question:
+- Ensure there is one rhetorical question somewhere in the body. If missing, insert a short rhetorical question (<=10 words) in a natural location. Add to edits.
+
+B.3 Forbidden phrases:
+- Check that none of the forbidden exact phrases exist in content:
+   - "In today's digital age"
+   - "The world of AI is ever-evolving"
+   - "This matters because"
+   - "In conclusion"
+- If any forbidden phrase is found: replace with human alternative and record edit. Add to notes which phrases were removed.
+
+B.4 Sentence length distribution:
+- Analyze sentence lengths and compute distribution:
+   - Short (6–12 words): target ~40%
+   - Medium (13–22 words): target ~45%
+   - Long (23–35 words): target ~15%
+- If distribution deviates by more than ±10 percentage points in any bucket:
+   - Implement adjustments by splitting long sentences or combining short sentences, favoring simple journalistic style.
+   - Record all sentence-splitting/combining operations in edits array with before/after text.
+
+B.5 Humanizing elements (must be present, count them):
+- Add at least 6 humanized elements across the article (if not already present):
+   - 1 short anecdote (sourced or labelled "illustrative composite")
+   - 1 writer POV sentence (B.1)
+   - 1 rhetorical question (B.2)
+   - 1 parenthetical aside (short)
+   - 1 colloquial connector ("That said," "Here's the rub:") used once
+   - 1 idiomatic phrase or mild interjection ("Look," "Here's the rub:")
+- If any element is missing, insert it naturally and record in edits.
+
+B.6 "AI-pattern sniff" and rewrite:
+- Identify top 8 sentences that most resemble AI-generated prose (e.g., long, highly structured, generic claims). For each:
+   - Provide two human rewrite options in the output: OptionA (concise journalist) and OptionB (narrative/personal). Replace the article's sentence with OptionA by default and include OptionB in notes.
+- Record these 8 replacements in edits array with before/after.
+
+--------------------------------------------------------------------------------
+STEP 4 — MANDATORY CHECK C: E-E-A-T & YMYL (strict)
+C.1 Author bio verification:
+- Ensure authorBio exists with fields: name, short cred (1 sentence), profileUrl.
+- If authorBio missing or incomplete:
+   - Insert placeholder authorBio with name = "AI News Hub Editorial Staff" and recommended author line: "Human editor: Yousef Sameer" (or actual name if provided). Add to edits and set "authorBioInserted": true.
+- NOTE: The user requested a final human editorial confirmation: include a human-editor signature line as described in STEP 6 (G).
+
+C.2 YMYL disclaimer:
+- If riskNote from Prompt A or content touches YMYL topics, ensure explicit disclaimer in bold near top:
+   - Example: "<strong>Disclaimer:</strong> This article is for informational purposes and is not medical/legal/financial advice. ..."
+- If missing, insert and record.
+
+C.3 No invented quotes or numbers:
+- Cross-check all quotes and numbers. If any invented content is suspected or unverifiable, mark it and act per STEP 2 remediation.
+- Add a boolean flag "inventionDetected": true/false in output.
+
+C.4 AI-detection threshold and remediation:
+- Run an AI-detection estimate (conceptual): assign an "aiProbability" score 0–100 based on style features (sentence length, repetition, template phrases). If aiProbability > 50:
+   - Re-run the humanization steps (B.1–B.6) iteratively until aiProbability <= 50 or until 3 passes attempted.
+   - If after 3 passes aiProbability > 50, set "requiresAction": true with requiredAction "human-editor-rewrite" and include the aiProbability number and edits made.
+- Record final aiProbability and numberOfPasses in auditMetadata.
+
+--------------------------------------------------------------------------------
+STEP 5 — Quote & Source Augmentation
+5.1 Ensure at least ONE named expert quote exists. If none in provided sources:
+   - Attempt to find a public statement in one of the sources (press/blog) that can be quoted verbatim; include exact citation.
+   - If no public quote exists, include a short "editor's note: no named expert quotes found; recommend interview with [role]" and set requiredAction "schedule-interview".
+5.2 If you add/replace a quote, include full citation in sources array and record edit.
+
+--------------------------------------------------------------------------------
+STEP 6 — Safety, Legal & Final Editorial Confirmation (MANDATORY G additions)
+6.1 Defamation check: If article alleges wrongdoing by named entities/individuals, ensure TWO independent sources confirm. If not, soften language and annotate.
+6.2 Final human editor confirmation (MANDATORY):
+- At the end of the output JSON include the following field exactly:
+  "humanEditorConfirmation": {
+    "editorName": "Yousef Sameer",
+    "editorRole": "Human Editor, AI News Hub",
+    "confirmationLine": "I have reviewed this article and verified the sources, quotes and numeric claims to the best of my ability.",
+    "dateReviewed": "YYYY-MM-DD"
+  }
+- If the actual human editor is someone else, replace name accordingly. If no human has actually reviewed, set "humanEditorConfirmation.reviewStatus": "pending" and add requiredAction "human-editor-review".
+- This confirmation line must appear in the article HTML as a short line below the author bio (when reviewStatus = "confirmed") or a "Pending editorial review" note if pending.
+
+--------------------------------------------------------------------------------
+STEP 7 — Anti-plagiarism & Final Readability (mandatory)
+7.1 Plagiarism check (conceptual):
+- Identify sentences that match >80% to any single source snippet (exact or near-exact). For each:
+   - Reword and add citation (paraphrase) OR include blockquote with proper attribution.
+7.2 Readability:
+- Compute approximate Flesch-Kincaid grade level. Target: grade 9–12.
+- If above grade 12, simplify language in high-complexity paragraphs and record edits.
+
+--------------------------------------------------------------------------------
+STEP 8 — Metadata & Schema corrections (final)
+8.1 Ensure metaTitle length 50–60 chars; metaDescription length 150–160 chars. If out of range, generate corrected strings and include them in "seoCorrections".
+8.2 Ensure main image alt text present. If not, create one.
+8.3 Validate schemaMarkup fields match finalTitle and datePublished; correct if mismatch.
+
+--------------------------------------------------------------------------------
+STEP 9 — Final QA gates (must set pass/fail flags)
+Set the following booleans in output:
+- "plagiarismFlag": true/false
+- "aiDetectionFlag": true/false (true if aiProbability >= 70)
+- "citationCompleteness": true/false
+- "authorBioPresent": true/false
+- "humanEditorSignedOff": true/false (true only if editorName has been confirmed and dateReviewed provided)
+
+If any of the following are true, set "publicationReady": false:
+- plagiarismFlag == true
+- aiDetectionFlag == true
+- citationCompleteness == false
+- humanEditorSignedOff == false
+
+--------------------------------------------------------------------------------
+STEP 10 — Output format (single JSON)
+Return JSON with the following keys (populate all fields; if something can't be completed, set field and include explicit "requiresAction" with list of steps):
+
+{
+ "finalTitle":"...",
+ "finalContent":"<html>...final polished HTML with inline links and verified sources and the human editor confirmation line...</html>",
+ "excerpt":"...",
+ "seo": { "metaTitle":"...","metaDescription":"...","imageAltText":"..." },
+ "tags":[...],
+ "conceptualIcon":"...",
+ "futureArticleSuggestions":[ "...","..." ],
+ "internalLinks":[ "<a href='...'>...</a>", ... ],
+ "schemaMarkup":"{...JSON-LD...}",
+ "adsenseReadinessScore":{ "score":0-100, "breakdown": { ... }, "notes":"..." },
+ "sources":[ ... ],  // full list, matching inline citations
+ "authorBio":{ "name":"...", "bio":"...", "profileUrl":"..." },
+ "edits":[ { "type":"...", "original":"...", "new":"...", "reason":"..." }, ... ],
+ "auditMetadata": { "auditTimestamp":"...", "aiProbability":n, "numberOfHumanizationPasses":n },
+ "plagiarismFlag": false,
+ "aiDetectionFlag": false,
+ "citationCompleteness": true,
+ "authorBioPresent": true,
+ "humanEditorConfirmation": {
+    "editorName":"Yousef Sameer",
+    "editorRole":"Human Editor, AI News Hub",
+    "confirmationLine":"I have reviewed this article and verified the sources, quotes and numeric claims to the best of my ability.",
+    "dateReviewed":"YYYY-MM-DD",
+    "reviewStatus":"confirmed"  // or "pending"
+ },
+ "requiresAction": false, // or true
+ "requiredActions":[ "detailed list of actions if requiresAction==true" ],
+ "notes":"Any unresolved issues or rationale for major changes"
+}
+
+--------------------------------------------------------------------------------
+FINAL ETHICS & BEHAVIOR RULES (must be followed):
+- NEVER invent quotes, people, or numbers.
+- If you cannot verify a fact, mark it, hedge it, or remove it — do NOT fabricate.
+- Be transparent in the "notes" about any substitutions or hedging.
+- If you add content (e.g., writer POV), ensure it is clearly editorial and not a fabricated primary source.
+
+END OF PROMPT D UPDATED.
+
+Links and sources must be real and without redirection, but the direct link to the real source.
+There must be real, logical internal links between my articles.
+You must push to GitHub and deploy to vercel when you complete any step or task to preserve progress and ensure the site works correctly, so that I can run the site at any time without relying on Manus or its servers, as if it were not running on Manus.

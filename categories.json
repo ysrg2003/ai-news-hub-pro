@@ -1,0 +1,90 @@
+[
+  {
+    "id": "machine-learning",
+    "name": "Machine Learning",
+    "description": "Explore the latest developments in machine learning algorithms, models, and applications.",
+    "colorPalette": {
+      "primary": "#6366F1",
+      "secondary": "#818CF8",
+      "accent": "#C7D2FE"
+    },
+    "backgroundPattern": "gradient"
+  },
+  {
+    "id": "nlp",
+    "name": "Natural Language Processing",
+    "description": "Discover breakthroughs in language understanding, generation, and processing.",
+    "colorPalette": {
+      "primary": "#EC4899",
+      "secondary": "#F472B6",
+      "accent": "#FBCFE8"
+    },
+    "backgroundPattern": "waves"
+  },
+  {
+    "id": "computer-vision",
+    "name": "Computer Vision",
+    "description": "Learn about image recognition, object detection, and visual AI technologies.",
+    "colorPalette": {
+      "primary": "#F59E0B",
+      "secondary": "#FBBF24",
+      "accent": "#FEF3C7"
+    },
+    "backgroundPattern": "dots"
+  },
+  {
+    "id": "robotics",
+    "name": "Robotics",
+    "description": "Follow the evolution of robotic systems, automation, and autonomous machines.",
+    "colorPalette": {
+      "primary": "#10B981",
+      "secondary": "#34D399",
+      "accent": "#D1FAE5"
+    },
+    "backgroundPattern": "grid"
+  },
+  {
+    "id": "generative-ai",
+    "name": "Generative AI",
+    "description": "Explore the frontier of AI that creates content, images, and code.",
+    "colorPalette": {
+      "primary": "#8B5CF6",
+      "secondary": "#A78BFA",
+      "accent": "#EDE9FE"
+    },
+    "backgroundPattern": "spiral"
+  },
+  {
+    "id": "ai-applications",
+    "name": "AI Applications",
+    "description": "See how AI is transforming industries and solving real-world problems.",
+    "colorPalette": {
+      "primary": "#06B6D4",
+      "secondary": "#22D3EE",
+      "accent": "#CFFAFE"
+    },
+    "backgroundPattern": "hexagons"
+  },
+  {
+    "id": "ai-research",
+    "name": "AI Research",
+    "description": "Dive into cutting-edge research papers and scientific discoveries.",
+    "colorPalette": {
+      "primary": "#EF4444",
+      "secondary": "#F87171",
+      "accent": "#FEE2E2"
+    },
+    "backgroundPattern": "lines"
+  },
+  {
+    "id": "ai-ethics",
+    "name": "AI Ethics",
+    "description": "Understand the ethical implications and responsible development of AI.",
+    "colorPalette": {
+      "primary": "#14B8A6",
+      "secondary": "#2DD4BF",
+      "accent": "#CCFBF1"
+    },
+    "backgroundPattern": "circles"
+  }
+]

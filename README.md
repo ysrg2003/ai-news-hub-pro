@@ -1,665 +1,275 @@
-# NewsHub - AI-Powered News Aggregation Platform
-<img width="1000" height="420" alt="NewsHub - AI-Powered News Aggregation Platform" src="https://github.com/user-attachments/assets/77ef82aa-ddfa-4376-a681-fe9623ff1782" />
+# AI News Hub - Automated AI News Platform
 
-A modern, full-stack news aggregation and summarization platform built with React, TypeScript, Node.js, and Redis. NewsHub provides users with AI-powered news summaries, personalized feeds, and advanced search capabilities using Google Gemini AI and Redis vector search.
+An intelligent, fully automated news platform that generates high-quality AI news articles daily using advanced AI technology. The platform features a sophisticated content generation system, SEO optimization, and a beautiful, responsive user interface.
 
-## 🚀 Features
+## 🌟 Features
 
-### Core Functionality
-- **AI-Powered News Summarization**: Uses Google Gemini AI for intelligent content analysis
-- **Vector Search & Similarity**: Redis-based semantic search with embeddings
-- **Personalized News Feeds**: User preference-based content recommendations
-- **Real-time News Fetching**: Automated news collection from multiple sources
-- **Advanced Search**: Filter articles by topic, sentiment, source, and keywords
-- **Responsive Design**: Optimized for desktop, tablet, and mobile devices
+### Core Features
+- **Automated Daily Content Generation**: Generates 16 high-quality articles daily (2 per category, 8 categories)
+- **Dual Content Strategy**: Produces both trending and evergreen content
+- **AI-Powered Writing**: Uses Gemini API with a sophisticated 3-step process for content creation
+- **Smart Image Generation**: Creates unique SVG cover images for each article
+- **SEO Optimization**: Automatic meta tags, sitemap generation, and schema markup
+- **Content Quality Assurance**: Strict validation using Zod schemas
 
-### User Experience
-- **Infinite Scroll**: Seamless browsing with automatic content loading
-- **Article Analytics**: View engagement metrics and trending articles
-- **Sentiment Analysis**: Visual indicators for article sentiment (positive, negative, neutral)
-- **Topic Filtering**: Browse news by categories and interests
-- **Real-time Updates**: Stay informed with the latest news from multiple sources
+### Content Categories
+- Machine Learning
+- Natural Language Processing
+- Computer Vision
+- Robotics
+- Generative AI
+- AI Applications
+- AI Research
+- AI Ethics
+
+### User Features
+- **Table of Contents**: Interactive navigation within articles
+- **Social Sharing**: Share articles on Twitter, Facebook, LinkedIn, and via email
+- **Article Search**: Real-time search functionality with live suggestions
+- **Category Browsing**: Browse articles by category with pagination
+- **Article Archive**: Complete archive of all published articles
+- **Related Articles**: Intelligent recommendations based on article tags
+- **Author Information**: Detailed author cards with publication metadata
+- **Responsive Design**: Fully responsive across all devices
 
 ### Technical Features
-- **TypeScript**: Full type safety and better development experience
-- **React Query**: Efficient data fetching and caching
-- **React Router**: Client-side routing with smooth navigation
-- **Tailwind CSS**: Utility-first styling with custom components
-- **Shadcn/ui**: Beautiful, accessible UI components
-- **Redis 8+**: Advanced caching, vector search, and JSON storage
-- **Express.js**: High-performance REST API
-- **Vite**: Fast development and build tooling
+- **Job Queue System**: Reliable retry mechanism for failed content generation
+- **Data Persistence**: JSON-based data storage with automatic archiving
+- **Dynamic Sitemap**: Automatically updated XML sitemap for search engines
+- **Rate Limiting**: Intelligent throttling to respect API limits
+- **Error Handling**: Comprehensive error tracking and recovery
 
-## 🏗️ System Architecture
+## 🏗️ Architecture
 
-### High-Level Architecture
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Frontend      │    │   Backend       │    │   External      │
-│   (React/TS)    │◄──►│   (Node.js)     │◄──►│   Services      │
-│                 │    │                 │    │                 │
-│ • React Router  │    │ • Express.js    │    │ • NewsAPI.org   │
-│ • React Query   │    │ • Redis Client  │    │ • Google Gemini │
-│ • Shadcn/ui     │    │ • AI Services   │    │ • Redis Cloud   │
-│ • Tailwind CSS  │    │ • Cache Layer   │    │                 │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-         │                       │                       │
-         │                       │                       │
-         ▼                       ▼                       ▼
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   User Layer    │    │   Data Layer    │    │   AI Layer      │
-│                 │    │                 │    │                 │
-│ • User Interface│    │ • Redis JSON    │    │ • Content       │
-│ • Personalization│   │ • Vector Search │    │   Analysis      │
-│ • Search/Filter │    │ • Multi-layer   │    │ • Sentiment     │
-│ • Responsive UI │    │   Caching       │    │   Analysis      │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-```
+### Backend Stack
+- **Runtime**: Node.js
+- **Framework**: Express.js
+- **AI Integration**: Google Gemini API (gemini-2.5-flash)
+- **Data Storage**: JSON files (articles-data.json, pending-jobs.json)
+- **Validation**: Zod schema validation
+- **Scheduling**: node-cron for automated tasks
 
-### Data Flow Architecture
-```
-┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
-│ NewsAPI.org │───►│ News        │───►│ AI          │───►│ Redis       │
-│             │    │ Processor   │    │ Processor   │    │ Storage     │
-│ • Raw News  │    │ • Fetch     │    │ • Gemini    │    │ • JSON      │
-│ • Metadata  │    │ • Parse     │    │ • Embeddings│    │ • Vectors   │
-│ • Sources   │    │ • Validate  │    │ • Sentiment │    │ • Indexes   │
-└─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
-                                                              │
-                                                              ▼
-┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
-│ Frontend    │◄───│ API Layer   │◄───│ Cache Layer │◄───│ Search      │
-│             │    │             │    │             │    │ Engine      │
-│ • React App │    │ • Express   │    │ • Multi-    │    │ • Vector    │
-│ • Components│    │ • Routes    │    │   layer     │    │   Search    │
-│ • State Mgmt│    │ • Controllers│   │ • LRU Cache │    │ • Full-text │
-└─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
-```
-
-### Component Architecture
-
-#### Frontend Architecture
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                        Frontend Layer                          │
-├─────────────────────────────────────────────────────────────────┤
-│  Pages Layer                                                   │
-│  ├── Home.tsx (News Feed)                                     │
-│  ├── Search.tsx (Advanced Search)                             │
-│  ├── Trending.tsx (Trending Articles)                         │
-│  ├── PersonalizedFeed.tsx (User Preferences)                  │
-│  ├── Article.tsx (Article Details)                            │
-│  └── NotFound.tsx (404 Page)                                  │
-├─────────────────────────────────────────────────────────────────┤
-│  Components Layer                                              │
-│  ├── UI Components (Shadcn/ui)                                │
-│  │   ├── Cards, Buttons, Forms                                │
-│  │   ├── Navigation, Modals                                   │
-│  │   └── Charts, Notifications                                │
-│  ├── Custom Components                                         │
-│  │   ├── ArticleCard.tsx                                      │
-│  │   ├── SearchFilters.tsx                                    │
-│  │   ├── Header.tsx                                           │
-│  │   └── SentimentBadge.tsx                                   │
-│  └── Layout Components                                         │
-├─────────────────────────────────────────────────────────────────┤
-│  Hooks Layer                                                   │
-│  ├── useDebounce.ts (Search Optimization)                     │
-│  ├── use-mobile.tsx (Responsive Logic)                        │
-│  └── use-toast.ts (Notifications)                             │
-├─────────────────────────────────────────────────────────────────┤
-│  Services Layer                                                │
-│  ├── api.ts (API Client)                                      │
-│  ├── userManager.ts (User Management)                         │
-│  ├── config.ts (Configuration)                                │
-│  └── utils.ts (Utilities)                                     │
-└─────────────────────────────────────────────────────────────────┘
-```
-
-#### Backend Architecture
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                        Backend Layer                           │
-├─────────────────────────────────────────────────────────────────┤
-│  API Layer (Express.js)                                        │
-│  ├── Routes                                                    │
-│  │   ├── /api/news (News Management)                          │
-│  │   ├── /api/user (User Management)                          │
-│  │   ├── /api/metadata (Metadata)                             │
-│  │   ├── /api/admin (Admin Functions)                         │
-│  │   └── /api/health (Health Checks)                          │
-│  ├── Controllers                                               │
-│  │   └── newsController.js (Request Handlers)                 │
-│  └── Middleware                                                │
-│      ├── errorHandler.js (Error Handling)                     │
-│      └── logger.js (Logging)                                  │
-├─────────────────────────────────────────────────────────────────┤
-│  Services Layer                                                │
-│  ├── redisService.js (Database Operations)                    │
-│  ├── geminiService.js (AI Integration)                        │
-│  ├── newsProcessor.js (Content Processing)                    │
-│  ├── newsFetcherService.js (External API)                     │
-│  └── cacheClearService.js (Cache Management)                  │
-├─────────────────────────────────────────────────────────────────┤
-│  Data Layer (Redis)                                            │
-│  ├── JSON Storage (Article Data)                              │
-│  ├── Vector Search (Semantic Similarity)                      │
-│  ├── Hash Storage (User Preferences)                          │
-│  ├── Sorted Sets (Trending Metrics)                           │
-│  └── Multi-layer Caching                                      │
-└─────────────────────────────────────────────────────────────────┘
-```
-
-### AI Integration Architecture
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Content       │    │   AI Processing │    │   Vector        │
-│   Input         │───►│   Pipeline      │───►│   Storage       │
-│                 │    │                 │    │                 │
-│ • News Articles │    │ • Gemini 2.0    │    │ • Embeddings    │
-│ • Raw Text      │    │ • Summarization │    │ • Similarity    │
-│ • Metadata      │    │ • Sentiment     │    │ • Search Index  │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-         │                       │                       │
-         │                       │                       │
-         ▼                       ▼                       ▼
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Content       │    │   AI Services   │    │   Search        │
-│   Analysis      │    │                 │    │   Results       │
-│                 │    │ • Text Analysis │    │                 │
-│ • Keywords      │    │ • Entity        │    │ • Semantic      │
-│ • Topics        │    │   Extraction    │    │   Search        │
-│ • Categories    │    │ • Classification│    │ • Recommendations│
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-```
-
-### Caching Architecture
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Request       │    │   Cache Layer   │    │   Data Source   │
-│   Layer         │───►│                 │───►│                 │
-│                 │    │                 │    │                 │
-│ • API Requests  │    │ • Request Cache │    │ • Redis JSON    │
-│ • User Queries  │    │ • Query Cache   │    │ • Vector DB     │
-│ • Search Filters│    │ • Result Cache  │    │ • External APIs │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-         ▲                       │                       │
-         │                       ▼                       │
-         │              ┌─────────────────┐              │
-         └──────────────│   Cache         │◄─────────────┘
-                        │   Statistics    │
-                        │                 │
-                        │ • Hit/Miss      │
-                        │ • Performance   │
-                        │ • Eviction      │
-                        └─────────────────┘
-```
-
-## 🛠️ Tech Stack
-
-### Frontend
+### Frontend Stack
 - **Framework**: React 18 with TypeScript
 - **Build Tool**: Vite
-- **Styling**: Tailwind CSS + Shadcn/ui components
-- **State Management**: React Query (TanStack Query)
-- **Routing**: React Router DOM
-- **UI Components**: Radix UI primitives
-- **Icons**: Lucide React
-- **Date Handling**: date-fns
-- **Form Handling**: React Hook Form + Zod validation
-- **Charts**: Recharts
-- **Notifications**: Sonner toast
+- **Styling**: Tailwind CSS
+- **UI Components**: Custom components + shadcn/ui
+- **Routing**: React Router v6
+- **HTTP Client**: Fetch API
 
-### Backend
-- **Runtime**: Node.js with Express.js
-- **Database**: Redis 8+ (JSON, Vector Search, Caching)
-- **AI Services**: Google Gemini AI (Gemini 2.0 Flash, Embeddings)
-- **News API**: NewsAPI.org integration
-- **Caching**: Multi-layer Redis caching system
-- **Search**: Redis Search with vector similarity
-- **Scheduling**: Node-cron for automated tasks
-
-## 📁 Project Structure
-
-```
-newshub/
-├── backend/                 # Node.js backend (NewsHub API)
-│   ├── src/
-│   │   ├── controllers/    # Request handlers
-│   │   │   └── newsController.js
-│   │   ├── routes/         # API route definitions
-│   │   │   ├── adminRoutes.js
-│   │   │   ├── healthRoutes.js
-│   │   │   ├── metadataRoutes.js
-│   │   │   ├── newsRoutes.js
-│   │   │   └── userRoutes.js
-│   │   ├── services/       # Business logic
-│   │   │   ├── cacheClearService.js
-│   │   │   ├── geminiService.js
-│   │   │   ├── newsFetcherService.js
-│   │   │   ├── newsProcessor.js
-│   │   │   └── redisService.js
-│   │   ├── middleware/     # Express middleware
-│   │   │   ├── errorHandler.js
-│   │   │   └── logger.js
-│   │   ├── utils/          # Utility functions
-│   │   │   └── pagination.js
-│   │   ├── config/         # Configuration
-│   │   │   └── database.js
-│   │   ├── scripts/        # Management scripts
-│   │   │   ├── clearAllCache.js
-│   │   │   ├── clearCache.js
-│   │   │   ├── clearCacheExceptUser.js
-│   │   │   ├── clearNews.js
-│   │   │   └── deleteSearchIndex.js
-│   │   └── app.js          # Express application
-│   ├── scripts/            # Root-level scripts
-│   │   └── run-news-processor.js
-│   ├── docs/               # Documentation
-│   │   ├── CACHE_CLEARING.md
-│   │   ├── CACHE_MANAGEMENT.md
-│   │   └── README.md
-│   ├── logs/               # Application logs
-│   ├── index.js            # Entry point
-│   ├── addNews.js          # News addition utility
-│   ├── test-cors.js        # CORS testing utility
-│   ├── package.json
-│   ├── package-lock.json
-│   ├── vercel.json         # Vercel deployment config
-│   ├── cache_clear_metrics_1754132194592.json
-│   └── README.md
-├── frontend/               # React frontend (NewsHub Web App)
-│   ├── src/
-│   │   ├── components/     # UI components
-│   │   │   ├── ui/         # Shadcn/ui components
-│   │   │   ├── ArticleCard.tsx
-│   │   │   ├── Header.tsx
-│   │   │   ├── LoadingSpinner.tsx
-│   │   │   ├── PersonalizedSearchFilters.tsx
-│   │   │   ├── PreferenceSetup.tsx
-│   │   │   ├── SearchFilters.tsx
-│   │   │   └── SentimentBadge.tsx
-│   │   ├── pages/          # Page components
-│   │   │   ├── Article.tsx
-│   │   │   ├── Home.tsx
-│   │   │   ├── Index.tsx
-│   │   │   ├── NotFound.tsx
-│   │   │   ├── PersonalizedFeed.tsx
-│   │   │   ├── Search.tsx
-│   │   │   └── Trending.tsx
-│   │   ├── hooks/          # Custom React hooks
-│   │   │   ├── useDebounce.ts
-│   │   │   ├── use-mobile.tsx
-│   │   │   └── use-toast.ts
-│   │   ├── lib/            # Utility libraries
-│   │   │   ├── api.ts
-│   │   │   ├── config.ts
-│   │   │   ├── env.ts
-│   │   │   ├── userManager.ts
-│   │   │   └── utils.ts
-│   │   ├── App.tsx         # Main React component
-│   │   ├── main.tsx        # Application entry point
-│   │   ├── index.css       # Global styles
-│   │   └── App.css         # App-specific styles
-│   ├── public/             # Static assets
-│   │   ├── favicon.ico
-│   │   ├── placeholder.svg
-│   │   └── robots.txt
-│   ├── .gitignore
-│   ├── bun.lockb           # Bun lock file
-│   ├── components.json     # Shadcn/ui configuration
-│   ├── env.example         # Environment variables template
-│   ├── eslint.config.js    # ESLint configuration
-│   ├── index.html          # HTML template
-│   ├── package.json        # Dependencies and scripts
-│   ├── package-lock.json
-│   ├── postcss.config.js   # PostCSS configuration
-│   ├── tailwind.config.ts  # Tailwind configuration
-│   ├── tsconfig.json       # TypeScript configuration
-│   ├── tsconfig.app.json
-│   ├── tsconfig.node.json
-│   ├── vercel.json         # Vercel deployment config
-│   ├── vite.config.ts      # Vite configuration
-│   └── vite.config.ts.timestamp-1753710958480-1ca4a5f8d9d6c.mjs
-└── README.md               # This file
-```
-
-**Note**: The frontend is now fully developed with a complete React TypeScript application including:
-- Comprehensive UI components with Shadcn/ui
-- Multiple pages for different features (Home, Search, Trending, Personalized Feed, etc.)
-- Custom hooks for functionality like debouncing and mobile detection
-- API integration and user management
-- Responsive design with Tailwind CSS
-
-## 📦 Installation
+## 🚀 Getting Started
 
 ### Prerequisites
 - Node.js 18+
-- Redis 8+ (with RedisJSON and RedisSearch modules)
+- npm or yarn
 - Google Gemini API key
-- NewsAPI.org API key
 
-### Quick Start
+### Installation
 
 1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd newshub
-   ```
+```bash
+git clone https://github.com/ysrg2003/ai-news-hub-pro.git
+cd ai-news-hub-pro
+```
 
 2. **Backend Setup**
-   ```bash
-   cd backend
-   npm install
-   
-   # Create .env file
-   echo "REDIS_URL=redis://localhost:6379
-   GEMINI_API_KEY=your_gemini_api_key
-   NEWSAPI_KEY=your_newsapi_key
-   PORT=3001
-   NODE_ENV=development" > .env
-   
-   # Start the server
-   npm run dev
-   ```
+```bash
+cd backend
+npm install
+cp .env.example .env
+# Edit .env and add your Gemini API key
+```
 
 3. **Frontend Setup**
-   ```bash
-   cd ../frontend
-   npm install
-   
-   # Create environment file (optional - will use fallback if not created)
-   cp env.example .env
-   
-   # Start development server
-   npm run dev
-   ```
+```bash
+cd ../frontend
+npm install --force
+cp .env.example .env.local
+```
 
-4. **Access the Application**
-   - **Frontend**: http://localhost:8080
-   - **Backend API**: http://localhost:3001
-
-## 🔧 Configuration
-
-### Environment Variables
+### Configuration
 
 #### Backend (.env)
 ```env
-# Redis Configuration
-REDIS_URL=redis://localhost:6379
-
-# AI Services
-GEMINI_API_KEY=your_gemini_api_key
-
-# News API
-NEWSAPI_KEY=your_newsapi_key
-
-# Server Configuration
+GEMINI_API_KEY=your_api_key_here
 PORT=3001
-NODE_ENV=development
+SITE_URL=https://ai-news-hub.com
+SITE_NAME=AI News Hub
 ```
 
-#### Frontend Configuration
-The frontend uses environment variables for configuration. Create a `.env` file in the frontend directory:
-
+#### Frontend (.env.local)
 ```env
-# API Configuration
-VITE_API_BASE_URL=http://localhost:3001
-
-# Feature Flags
-VITE_ENABLE_ANALYTICS=false
-VITE_DEBUG_MODE=false
+VITE_API_URL=http://localhost:3001/api
 ```
 
-The API base URL is automatically configured with fallback to `http://localhost:3001` if not specified.
+### Running the Application
 
-### Redis Requirements
-- Redis 8+ with RedisJSON module
-- RedisSearch module for vector search
-- Minimum 1GB memory recommended
+**Development Mode:**
 
-### CORS Configuration
-The backend is configured to accept requests from:
-- Local development: `http://localhost:8080`, `http://localhost:3000`, `http://localhost:5173`
-- Production: `https://newshub-henna.vercel.app` and other Vercel domains
-- Custom domains can be added to the CORS configuration in `src/app.js`
-
-## 🔌 API Endpoints
-
-### News Management
-- `GET /api/news` - Get all articles with pagination
-- `GET /api/news/:id` - Get specific article by ID
-- `GET /api/news/:id/similar` - Get similar articles
-- `GET /api/news/:id/metrics` - Get article engagement metrics
-- `GET /api/news/search` - Search articles with filters
-- `GET /api/news/topic/:topic` - Get articles by topic
-- `GET /api/news/sentiment/:sentiment` - Get articles by sentiment
-- `GET /api/news/trending` - Get trending articles
-
-### User Management
-- `POST /api/user/generate-id` - Generate unique user ID
-- `POST /api/user/:userId/preferences` - Store user preferences
-- `GET /api/user/:userId/preferences` - Get user preferences
-- `PUT /api/user/:userId/preferences` - Update user preferences
-- `GET /api/user/:userId/personalized-news` - Get personalized feed
-- `GET /api/user/:userId/personalized-news/search` - Search personalized content
-- `GET /api/user/:userId/history` - Get user reading history
-
-### Metadata & Analytics
-- `GET /api/metadata/topics` - Get available topics
-- `GET /api/metadata/sentiments` - Get sentiment options
-- `GET /api/metadata/sources` - Get news sources
-
-### Admin & Health
-- `GET /api/admin/similar-stats/:id` - Get similarity statistics
-- `GET /api/admin/clear-similar-cache/:id` - Clear similarity cache
-- `GET /api/health` - Health check endpoint
-
-## 🗄️ Redis Features
-
-### Data Storage
-- **JSON Storage**: Article data with full-text search
-- **Vector Search**: Semantic similarity with embeddings
-- **Hash Storage**: User preferences and metadata
-- **Sorted Sets**: Trending articles and metrics
-
-### Caching Strategy
-- **Multi-layer Caching**: Request, query, and result caching
-- **LRU Eviction**: Intelligent cache management
-- **Bloom Filters**: Efficient duplicate detection
-- **Cache Statistics**: Performance monitoring
-
-### Search Capabilities
-- **Full-text Search**: Article content and metadata
-- **Vector Similarity**: Semantic article matching
-- **Faceted Search**: Topic, sentiment, source filtering
-- **Fuzzy Matching**: Typo-tolerant search
-
-## 📊 AI Integration
-
-### Gemini AI Services
-- **Content Summarization**: Intelligent article summarization
-- **Sentiment Analysis**: Positive, negative, neutral classification
-- **Keyword Extraction**: Relevant topic and entity extraction
-- **Vector Embeddings**: Semantic similarity generation
-
-### News Processing Pipeline
-1. **Fetch**: Collect news from multiple sources
-2. **Analyze**: AI-powered content analysis
-3. **Store**: Redis storage with search indexing
-4. **Cache**: Multi-layer caching for performance
-5. **Serve**: RESTful API delivery
-
-## 🚀 Available Scripts
-
-### Backend
+Terminal 1 - Backend:
 ```bash
-# Development
-npm run dev              # Start development server
-npm start                # Start production server
-
-# Cache Management
-npm run cache:stats      # Show cache statistics
-npm run cache:clear      # Clear cache (with confirmation)
-npm run cache:force      # Force clear cache
-npm run cache:nuclear    # Clear all Redis data
-npm run cache:complete-stats  # Detailed Redis statistics
-npm run cache:help       # Show cache management help
-```
-
-### Frontend
-```bash
-# Development
-npm run dev              # Start development server
-npm run build            # Build for production
-npm run build:dev        # Build for development
-npm run preview          # Preview production build
-npm run lint             # Run ESLint
-```
-
-## 🎨 UI Components
-
-The application uses a comprehensive set of UI components built with Shadcn/ui and Radix UI:
-
-- **Cards**: Article display and information containers
-- **Buttons**: Various button styles and states
-- **Badges**: Topic and sentiment indicators
-- **Forms**: Search filters and user preferences
-- **Navigation**: Header and mobile menu
-- **Loading States**: Spinners and skeleton loaders
-- **Toasts**: Success and error notifications
-
-## 📱 Responsive Design
-
-The application is fully responsive with:
-- Mobile-first design approach
-- Collapsible navigation menu
-- Touch-friendly interactions
-- Optimized layouts for different screen sizes
-- Progressive enhancement
-
-## 🔍 Search & Filtering
-
-Advanced search capabilities include:
-- **Text Search**: Search by article title and content
-- **Topic Filtering**: Filter by news categories
-- **Sentiment Filtering**: Filter by article sentiment
-- **Source Filtering**: Filter by news source
-- **Date Range**: Filter by publication date
-- **Combined Filters**: Use multiple filters simultaneously
-
-## 👤 Personalization
-
-User personalization features:
-- **Topic Preferences**: Set preferred news topics
-- **Personalized Feed**: AI-curated content based on preferences
-- **Reading History**: Track viewed articles
-- **Engagement Metrics**: View article popularity and trends
-
-## 📈 Monitoring & Analytics
-
-### Performance Metrics
-- Request/response logging
-- Cache hit/miss ratios
-- API response times
-- Memory usage monitoring
-- Error tracking and reporting
-
-### Health Checks
-- Redis connectivity
-- API endpoint availability
-- Service status monitoring
-- Performance benchmarks
-
-## 🚀 Deployment
-
-### Backend Deployment
-```bash
-# Local Development
+cd backend
 npm run dev
-
-# Production Deployment
-npm start
-
-# Vercel Deployment
-vercel --prod
 ```
 
-### Frontend Deployment
+Terminal 2 - Frontend:
 ```bash
-# Build for Production
-npm run build
-
-# Deploy to Vercel
-npm install -g vercel
-vercel
-
-# Deploy to Netlify
-npm run build
-# Upload the dist folder to Netlify
+cd frontend
+npm run dev
 ```
 
-## 📚 Documentation
+**Production Mode:**
 
-- [Backend Documentation](backend/README.md)
-- [Frontend Documentation](frontend/README.md)
-- [Cache Management Guide](backend/docs/CACHE_MANAGEMENT.md)
-- [Cache Clearing Guide](backend/docs/CACHE_CLEARING.md)
-- [API Documentation](backend/docs/README.md)
+Backend:
+```bash
+cd backend
+npm start
+```
 
-## 👨‍💻 Author
+Frontend:
+```bash
+cd frontend
+npm run build
+npm run preview
+```
 
-**Varshith V Hegde** ([@Varshithvhegde](https://github.com/Varshithvhegde))
+## 📝 Content Generation Process
+
+### The 3-Step Gemini Process
+
+#### Step 1: Story Discovery
+- Searches for trending topics and recent developments
+- Identifies compelling narrative angles
+- Generates catchy, journalistic headlines
+
+#### Step 2: Research & Draft
+- Conducts in-depth research using Google Search
+- Writes comprehensive 1500-1800 word articles
+- Applies editorial principles for quality assurance
+- Performs self-review and refinement
+
+#### Step 3: Final Editing & SEO
+- Polishes article for clarity and impact
+- Adds rich media elements (lists, blockquotes)
+- Extracts conceptual icons for visual identity
+- Generates internal linking strategy
+- Creates SEO package (meta tags, descriptions)
+- Suggests future article topics
+
+### Daily Automation
+
+The system runs automatically at 00:00 UTC daily:
+1. Processes any failed jobs from previous runs (up to 3 retry attempts)
+2. Generates 16 new articles (2 per category)
+3. Creates unique SVG cover images
+4. Updates sitemap.xml
+5. Logs performance metrics
+
+## 🔍 API Endpoints
+
+### Articles
+- `GET /api/articles` - Get all articles with pagination
+- `GET /api/articles/:slug` - Get single article
+- `GET /api/articles/category/:categoryId` - Get articles by category
+- `GET /api/articles/tag/:tag` - Get articles by tag
+- `GET /api/articles/search?q=query` - Search articles
+
+### Automation
+- `POST /api/automation/run` - Manually trigger daily automation
+- `GET /api/automation/status` - Get automation status
+
+## 📊 Data Models
+
+### Article Object
+```javascript
+{
+  id: "uuid",
+  title: "Article Title",
+  content: "<html>...</html>",
+  excerpt: "Brief excerpt",
+  category: "machine-learning",
+  articleType: "trending|evergreen",
+  author: "AI News Hub",
+  date: "2024-01-01T00:00:00Z",
+  readTime: 8,
+  image: "data:image/svg+xml;base64,...",
+  seo: {
+    metaTitle: "...",
+    metaDescription: "...",
+    imageAltText: "...",
+    tags: ["tag1", "tag2"]
+  },
+  tags: ["tag1", "tag2"],
+  conceptualIcon: "network",
+  slug: "article-slug",
+  createdAt: "2024-01-01T00:00:00Z",
+  updatedAt: "2024-01-01T00:00:00Z"
+}
+```
+
+### Pending Job Object
+```javascript
+{
+  jobId: "uuid",
+  category: "machine-learning",
+  articleType: "trending",
+  status: "pending|failed_at_step_1|...",
+  attempts: 1,
+  lastAttempted: "2024-01-01T00:00:00Z",
+  error: "Error message",
+  createdAt: "2024-01-01T00:00:00Z"
+}
+```
+
+## 📄 Pages
+
+- **Home** (`/`) - Featured articles and latest content
+- **Search** (`/search`) - Full-text search with filters
+- **Category** (`/category/:id`) - Articles by category
+- **Article** (`/article/:slug`) - Full article view with TOC, sharing, and related articles
+- **Archive** (`/archive`) - Complete article archive with filters
+- **About** (`/about`) - About the platform
+- **Contact** (`/contact`) - Contact form
+- **Privacy** (`/privacy`) - Privacy policy
+- **Terms** (`/terms`) - Terms of service
+
+## 🛠️ Development
+
+### Adding a New Feature
+
+1. Create feature branch: `git checkout -b feature/new-feature`
+2. Make changes
+3. Test thoroughly
+4. Commit: `git commit -m "Add new feature"`
+5. Push: `git push origin feature/new-feature`
+6. Create Pull Request
+
+## 📦 Deployment
+
+### Vercel (Recommended)
+
+1. Push code to GitHub
+2. Connect repository to Vercel
+3. Set environment variables
+4. Deploy
 
 ## 🤝 Contributing
 
+Contributions are welcome! Please follow these guidelines:
+
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 🆘 Support
+## 📞 Support
 
-For support and questions:
-- Create an issue in the repository
-- Check the documentation in the `/docs` folder
-- Review the API documentation
-
-## 🔮 Roadmap
-
-- [ ] Real-time breaking news notifications
-- [ ] Live analytics dashboard
-- [ ] AI-powered chatbot
-- [ ] Advanced content curation
-- [ ] Offline reading capabilities
-- [ ] Push notifications for breaking news
-- [ ] Social sharing features
-- [ ] Advanced analytics dashboard
-- [ ] Multi-language support
-- [ ] Podcast integration
-- [ ] Video news summaries
-
-## 🏆 Redis AI Challenge
-
-This project is designed for the **Redis AI Challenge** and demonstrates:
-
-### Real-Time AI Innovators Features
-- **AI-Powered Content Analysis**: Google Gemini AI integration
-- **Vector Search**: Redis-based semantic similarity
-- **Real-Time Processing**: Live news analysis and recommendations
-- **Personalized AI**: ML-based content curation
-
-### Beyond the Cache Features
-- **Redis as Primary Database**: JSON storage with full-text search
-- **Advanced Redis Features**: Vector search, streams, pub/sub
-- **Performance Optimization**: Multi-layer caching strategies
-- **Scalable Architecture**: Handle thousands of concurrent users
+For support, email support@ai-news-hub.com or visit our [contact page](https://ai-news-hub.com/contact).
 
 ---
 
-**Built with ❤️ using React, TypeScript, Node.js, Express, Redis, and Google Gemini AI** 
+**Built with ❤️ using AI and modern web technologies**
